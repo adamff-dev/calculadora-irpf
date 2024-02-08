@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculadora IRPF 2024</title>
+    <script src="./calculator.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body class="container w-25 my-4" data-bs-theme="dark">
+    <h1>Calculadora IRPF 2024</h1>
+    <form>
+      <div class="mb-3">
+        <label for="salary" class="form-label">Salario anual bruto:</label>
+        <input
+          type="number"
+          class="form-control"
+          name="salary"
+          id="salary"
+          lang="es"
+          step="1000"
+        />
+      </div>
+      <div class="mb-3">
+        <label for="salaryPayments" class="form-label">Número de pagas:</label>
+        <select class="form-select" name="salaryPayments" id="salaryPayments">
+          <option value="12">12</option>
+          <option value="14">14</option>
+          <option value="16">16</option>
+        </select>
+      </div>
+    </form>
+
+    <section class="mt-4">
+      <div>Impuestos totales: <b id="totalTax">- €</b></div>
+      <div>Porcentaje de impuestos: <b id="totalTaxRate">- %</b></div>
+      <div>Salario anual neto: <b id="annualNet">- €</b></div>
+      <div>Salario mensual neto: <b id="mensualNet">- €</b></div>
+    </section>
+
+    <article class="mt-4">
+      <details>
+        <summary class="fw-bold">¿Cómo se obtiene este cálculo?</summary>
+        <p>Tramos para la declaración del IRPF 2023:</p>
+        <ul>
+          <li>Desde 0 hasta 12.450 euros: retención del 19%.</li>
+          <li>Desde 12.450 hasta 20.199 euros: retención del 24%.</li>
+          <li>Desde 20.200 hasta 35.199 euros: retención del 30%.</li>
+          <li>Desde 35.200 hasta 59.999 euros: retención del 37%.</li>
+          <li>Desde 60.000 hasta 299.999 euros: retención del 45%.</li>
+          <li>Más de 300.000 euros: retención del 47%.</li>
+        </ul>
+        <p>
+          Además, el contribuyente no tributa por la totalidad de sus ingresos
+          al tipo de retención más alto, sino que los porcentajes se van
+          aplicando uno a uno, empezando por el inferior. Por ejemplo, si una
+          persona ingresa 22.000 euros brutos al año, no paga por el IRPF el 30%
+          de ese total, sino un 19% por los primeros 12.450 euros, un 24% de los
+          siguientes 7.75
+        </p>
+        <small
+          >Fuente:
+          <a
+            href="https://www.elmundo.es/como/2024/02/07/65c36a0ae9cf4a1e0e8b459d.html"
+            >www.elmundo.es</a
+          ></small
+        >
+      </details>
+    </article>
+  </body>
+</html>
