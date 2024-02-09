@@ -16,16 +16,28 @@ irpfSections = [
   [300000, 100000000, 47],
 ];
 
-let $salary, $salaryPayments, $totalTax, $totalTaxRate, $annualNet, $mensualNet;
+commonContingenciesContibutionRate = 4.82; // cotización cont. comúm
+vocationalTrainingContibutionRate = 0.1; // cotización formación
+unemploymentContributioRate = 1.55; // cotización desempleo
+
+let $salary,
+  $salaryPayments,
+  $totalIrpf,
+  $totalIrpfRate,
+  $annualNet,
+  $mensualNet;
 
 window.addEventListener("load", function () {
   [
     $salary,
     $salaryPayments,
-    $totalTax,
-    $totalTaxRate,
+    $totalIrpf,
+    $totalIrpfRate,
     $annualNet,
     $mensualNet,
+    $commonContingenciesContibution,
+    $vocationalTrainingContibution,
+    $unemploymentContribution,
   ] = getDocumentElements();
 
   $salary.addEventListener("input", calcular);
@@ -36,38 +48,54 @@ function calcular() {
   const salary = parseFloat($salary.value);
   const salaryPayments = parseFloat($salaryPayments.value);
   let pending = salary;
-  let totalTax = calculateTotalTax(pending);
+  let totalIrpf = calculateTotalTax(pending);
+  const totalIrpfRate = (totalIrpf * 100) / salary;
 
-  const totalTaxRate = (totalTax * 100) / salary;
-  const annualNet = salary - totalTax;
+  const commonContingenciesContibution =
+    (salary * commonContingenciesContibutionRate) / 100;
+  const vocationalTrainingContibution =
+    (salary * vocationalTrainingContibutionRate) / 100;
+  const unemploymentContribution = (salary * unemploymentContributioRate) / 100;
+
+  const annualNet =
+    salary -
+    totalIrpf -
+    commonContingenciesContibution -
+    vocationalTrainingContibution -
+    unemploymentContribution;
   const mensualNet = annualNet / salaryPayments;
 
   setResults(
-    $totalTax,
-    totalTax,
-    $totalTaxRate,
-    totalTaxRate,
-    $annualNet,
+    totalIrpf,
+    totalIrpfRate,
     annualNet,
-    $mensualNet,
-    mensualNet
+    mensualNet,
+    commonContingenciesContibution,
+    vocationalTrainingContibution,
+    unemploymentContribution
   );
 }
 
 function setResults(
-  $totalTax,
-  totalTax,
-  $totalTaxRate,
-  totalTaxRate,
-  $annualNet,
+  totalIrpf,
+  totalIrpfRate,
   annualNet,
-  $mensualNet,
-  mensualNet
+  mensualNet,
+  commonContingenciesContibution,
+  vocationalTrainingContibution,
+  unemploymentContribution
 ) {
-  $totalTax.innerText = formatNumber(totalTax);
-  $totalTaxRate.innerText = formatNumber(totalTaxRate, "%");
+  $totalIrpf.innerText = formatNumber(totalIrpf);
+  $totalIrpfRate.innerText = formatNumber(totalIrpfRate, "%");
   $annualNet.innerText = formatNumber(annualNet);
   $mensualNet.innerText = formatNumber(mensualNet);
+  $commonContingenciesContibution.innerText = formatNumber(
+    commonContingenciesContibution
+  );
+  $vocationalTrainingContibution.innerText = formatNumber(
+    vocationalTrainingContibution
+  );
+  $unemploymentContribution.innerText = formatNumber(unemploymentContribution);
 }
 
 function formatNumber(value, suffix = "€") {
@@ -81,32 +109,44 @@ function formatNumber(value, suffix = "€") {
 function getDocumentElements() {
   const $salary = document.getElementById("salary");
   const $salaryPayments = document.getElementById("salaryPayments");
-  const $totalTax = document.getElementById("totalTax");
-  const $totalTaxRate = document.getElementById("totalTaxRate");
+  const $totalIrpf = document.getElementById("totalIrpf");
+  const $totalIrpfRate = document.getElementById("totalIrpfRate");
   const $annualNet = document.getElementById("annualNet");
   const $mensualNet = document.getElementById("mensualNet");
+  const $commonContingenciesContibution = document.getElementById(
+    "commonContingenciesContibution"
+  );
+  const $vocationalTrainingContibution = document.getElementById(
+    "vocationalTrainingContibution"
+  );
+  const $unemploymentContribution = document.getElementById(
+    "unemploymentContribution"
+  );
   return [
     $salary,
     $salaryPayments,
-    $totalTax,
-    $totalTaxRate,
+    $totalIrpf,
+    $totalIrpfRate,
     $annualNet,
     $mensualNet,
+    $commonContingenciesContibution,
+    $vocationalTrainingContibution,
+    $unemploymentContribution,
   ];
 }
 
 function calculateTotalTax(pending) {
-  let totalTax = 0;
+  let totalIrpf = 0;
 
   for (const section of irpfSections) {
     const [lower, upper, rate] = section;
 
     if (pending > upper) {
-      totalTax += (upper - lower) * (rate / 100);
+      totalIrpf += (upper - lower) * (rate / 100);
     } else {
-      totalTax += (pending - lower) * (rate / 100);
+      totalIrpf += (pending - lower) * (rate / 100);
       break;
     }
   }
-  return totalTax;
+  return totalIrpf;
 }

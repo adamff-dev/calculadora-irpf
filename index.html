@@ -12,8 +12,12 @@
       crossorigin="anonymous"
     />
   </head>
-  <body class="container w-25 my-4" data-bs-theme="dark">
-    <h1>Calculadora IRPF 2024</h1>
+  <body
+    class="container col col-xxl-3 col-xl-4 col-md-6 mx-auto my-4"
+    data-bs-theme="dark"
+  >
+    <h1>Calculadora salario neto</h1>
+    <h2 class="lead">2024</h2>
     <form>
       <div class="mb-3">
         <label for="salary" class="form-label">Salario anual bruto:</label>
@@ -36,14 +40,26 @@
       </div>
     </form>
 
-    <section class="mt-4">
-      <div>Impuestos totales: <b id="totalTax">- €</b></div>
-      <div>Porcentaje de impuestos: <b id="totalTaxRate">- %</b></div>
+    <section class="my-5">
+      <h3>Resultados</h3>
+      <hr />
+      <div>IRPF: <b id="totalIrpf">- €</b></div>
+      <div>Porcentaje IRPF: <b id="totalIrpfRate">- %</b></div>
+      <hr />
+      <div>
+        Cotización cont. comúm: <b id="commonContingenciesContibution">- €</b>
+      </div>
+      <div>
+        Cotización formación: <b id="vocationalTrainingContibution">- €</b>
+      </div>
+      <div>Cotización desempleo: <b id="unemploymentContribution">- €</b></div>
+      <hr />
       <div>Salario anual neto: <b id="annualNet">- €</b></div>
       <div>Salario mensual neto: <b id="mensualNet">- €</b></div>
+      <hr />
     </section>
 
-    <article class="mt-4">
+    <article>
       <details>
         <summary class="fw-bold">¿Cómo se obtiene este cálculo?</summary>
         <p>Tramos para la declaración del IRPF 2023:</p>
